@@ -1,5 +1,3 @@
-package RegistrationPage;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class RegistrationTestSuite {
+public class RegistrationTest {
 
     private WebDriver driver;
 
@@ -48,9 +46,17 @@ public class RegistrationTestSuite {
     @Test
     public void testEmptyPasswords() {
 
+        // Password and confirm password fields empty
         fillDataAndSubmit(email, firstName, lastName, "", "");
         checkResult(ERROR_MESSAGE_XPATH);
 
+        // Password field filled with valid data, confirm password empty
+        fillDataAndSubmit(email, firstName, lastName, password, "");
+        checkResult(ERROR_MESSAGE_XPATH);
+
+        // Password field empty, confirm password filled with valid data
+        fillDataAndSubmit(email, firstName, lastName, "", password);
+        checkResult(ERROR_MESSAGE_XPATH);
     }
 
     @Test
@@ -60,6 +66,26 @@ public class RegistrationTestSuite {
         checkResult(ERROR_MESSAGE_XPATH);
     }
 
+    @Test
+    public void testEmptyEmail() {
+
+        fillDataAndSubmit("", firstName, lastName, password, password);
+        checkResult(ERROR_MESSAGE_XPATH);
+    }
+
+    @Test
+    public void testEmptyFirstName() {
+
+        fillDataAndSubmit(email, "", lastName, password, password);
+        checkResult(ERROR_MESSAGE_XPATH);
+    }
+    @Test
+    public void testEmptyLastName() {
+
+        fillDataAndSubmit(email, firstName, "", password, password);
+        checkResult(ERROR_MESSAGE_XPATH);
+    }
+    
     @Test
     public void successfulRegistrationTest() {
 
